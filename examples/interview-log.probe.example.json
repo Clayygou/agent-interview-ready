@@ -1,0 +1,160 @@
+{
+  "session_id": "demo-session-002",
+  "mode": "interactive",
+  "started_at": "2026-01-02",
+  "pick_seed": "20261104-demo",
+  "pick_group": "basics",
+  "ended_reason": "达到目标轮数（业务面 6 轮）",
+  "turns": [
+    {
+      "id": "M1",
+      "q_ref": "Q3-1",
+      "round": 1,
+      "followup_of": null,
+      "level": "L1",
+      "bank_id": "L1-B01",
+      "topic": "LLM 的自回归生成与训练推理差异",
+      "question": "大语言模型为什么按 next-token prediction 训练、按自回归方式生成？训练和推理的不一致会带来什么问题？",
+      "answer": "训练时用 teacher forcing，每一步都喂真实前缀；推理时只能喂自己生成的前缀，这叫 exposure bias，早期错一个 token 后面会沿错误前缀越走越偏。项目里做多步生成时用轨迹日志定位第一个偏掉的 token。",
+      "answered": true,
+      "score": 2,
+      "verdict": "有结论无依据",
+      "decision": {
+        "action": "start",
+        "based_on": null,
+        "reason": "题库 L1 八股池随机首题"
+      },
+      "gaps": [
+        "失败代价与替代方案"
+      ],
+      "fix": "结论先行 → 依据 → 项目证据 → 代价与边界，四步补齐。",
+      "domain_ref": "通用八股；本地知识库 INTERVIEW.md 无对应题号",
+      "option": "直接作答"
+    },
+    {
+      "id": "M2",
+      "q_ref": "Q3-1",
+      "round": 2,
+      "followup_of": "M1",
+      "level": "L1",
+      "bank_id": "L1-B01",
+      "topic": "训练推理不一致的代价",
+      "question": "你刚才说『训练时用 teacher forcing，每一步都喂真实前缀』，那除了 exposure bias，训练与推理不一致还有哪些代价，怎么缓解？",
+      "answer": "长序列会越走越偏；可以用 scheduled sampling 在训练里混入模型自己的前缀，代价是训练不稳定、收敛变慢；也可以用约束解码兜底，但会牺牲生成多样性。项目里只在高风险字段上开约束。",
+      "answered": true,
+      "score": 2,
+      "verdict": "有结论无依据",
+      "decision": {
+        "action": "followup",
+        "based_on": "训练时用 teacher forcing，每一步都喂真实前缀",
+        "reason": "回答缺依据，原地追问"
+      },
+      "gaps": [
+        "失败代价与替代方案"
+      ],
+      "fix": "结论先行 → 依据 → 项目证据 → 代价与边界，四步补齐。",
+      "domain_ref": "通用八股；本地知识库 INTERVIEW.md 无对应题号",
+      "option": "直接作答"
+    },
+    {
+      "id": "M3",
+      "q_ref": "Q3-1",
+      "round": 3,
+      "followup_of": "M2",
+      "level": "L1",
+      "bank_id": "L1-B01",
+      "topic": "缓解手段自身的偏差",
+      "question": "你刚才说『可以用 scheduled sampling 在训练里混入模型自己的前缀』，那这个缓解手段本身会引入什么新的偏差，为什么不是免费午餐？",
+      "answer": "混入模型前缀会让训练分布随模型变化而漂移，早期容易学到自己的错误并放大；要调混入比例并在验证集上盯困惑度，替代方案是只在高风险字段用约束解码。项目里用小比例混入加固定种子做回归。",
+      "answered": true,
+      "score": 2,
+      "verdict": "有结论无依据",
+      "decision": {
+        "action": "followup",
+        "based_on": "可以用 scheduled sampling 在训练里混入模型自己的前缀",
+        "reason": "连续第 2 次同档追问"
+      },
+      "gaps": [
+        "失败代价与替代方案"
+      ],
+      "fix": "结论先行 → 依据 → 项目证据 → 代价与边界，四步补齐。",
+      "domain_ref": "通用八股；本地知识库 INTERVIEW.md 无对应题号",
+      "option": "直接作答"
+    },
+    {
+      "id": "M4",
+      "q_ref": "Q3-4",
+      "round": 4,
+      "followup_of": null,
+      "level": "L2",
+      "bank_id": "L2-02",
+      "topic": "工具报错后的错误回填",
+      "question": "你刚才说『要调混入比例并在验证集上盯困惑度』，换个考点：工具返回格式错误时，直接重试和把错误回填给模型，各自代价是什么？",
+      "answer": "直接重试会重复消耗 token 并可能重复触发副作用；回填错误让模型能修参数，但要多一轮推理。我们用 Schema 校验加有限重试。",
+      "answered": true,
+      "score": 2,
+      "verdict": "有结论无依据",
+      "decision": {
+        "action": "probe",
+        "based_on": "要调混入比例并在验证集上盯困惑度",
+        "reason": "试探性升档：连续 2 次同档追问仍 2 分，换考点升一档"
+      },
+      "gaps": [
+        "失败代价与替代方案"
+      ],
+      "fix": "结论先行 → 依据 → 项目证据 → 代价与边界，四步补齐。",
+      "domain_ref": "INTERVIEW.md 第 42 题（三组 23–42）",
+      "option": "需要提示"
+    },
+    {
+      "id": "M5",
+      "q_ref": "Q3-4",
+      "round": 5,
+      "followup_of": "M4",
+      "level": "L2",
+      "bank_id": "L2-02",
+      "topic": "已执行一半的副作用",
+      "question": "你刚才说『Schema 校验加有限重试』，那已经执行了一半的工具调用怎么保证不重复？",
+      "answer": "用幂等键把动作与结果绑定，重放时先查键再决定是否真的执行，恢复后不会重复扣款；边界是本地模拟没有真实支付系统。",
+      "answered": true,
+      "score": 3,
+      "verdict": "有依据缺代价",
+      "decision": {
+        "action": "followup",
+        "based_on": "Schema 校验加有限重试",
+        "reason": "追问幂等与恢复"
+      },
+      "gaps": [
+        "失败代价与替代方案"
+      ],
+      "fix": "结论先行 → 依据 → 项目证据 → 代价与边界，四步补齐。",
+      "domain_ref": "INTERVIEW.md 第 42 题（三组 23–42）",
+      "option": "直接作答"
+    },
+    {
+      "id": "M6",
+      "q_ref": "Q3-4",
+      "round": 6,
+      "followup_of": "M5",
+      "level": "L2",
+      "bank_id": "L2-02",
+      "topic": "压缩后的可回溯性",
+      "question": "你刚才说『用幂等键把动作与结果绑定』，那压缩后的日志还能不能定位到被丢掉的那条约束？",
+      "answer": "压缩前列不可丢清单并保留原文引用，压缩后做一致性校验，不一致就回滚到未压缩版本；代价是多一份存储。",
+      "answered": true,
+      "score": 3,
+      "verdict": "有依据缺代价",
+      "decision": {
+        "action": "followup",
+        "based_on": "用幂等键把动作与结果绑定",
+        "reason": "追问压缩边界与回滚"
+      },
+      "gaps": [
+        "失败代价与替代方案"
+      ],
+      "fix": "结论先行 → 依据 → 项目证据 → 代价与边界，四步补齐。",
+      "domain_ref": "INTERVIEW.md 第 42 题（三组 23–42）",
+      "option": "直接作答"
+    }
+  ]
+}

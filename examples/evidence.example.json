@@ -1,0 +1,50 @@
+{
+  "searched_at": "2026-01-01",
+  "tools_used": [
+    "web_search",
+    "fetch_page"
+  ],
+  "queries": [
+    "示例公司 AI Agent 工程师 面经"
+  ],
+  "found": true,
+  "items": [
+    {
+      "platform": "牛客",
+      "title": "面经 A",
+      "date": "2025-11-12",
+      "url": "https://www.nowcoder.com/discuss/a",
+      "points": [
+        "ReAct 循环",
+        "工具参数校验"
+      ]
+    },
+    {
+      "platform": "知乎",
+      "title": "面经 B",
+      "date": "2025-11-20",
+      "url": "https://www.zhihu.com/question/b",
+      "points": [
+        "ReAct 循环",
+        "上下文预算"
+      ]
+    },
+    {
+      "platform": "脉脉",
+      "title": "面经 C",
+      "date": "2025-12-05",
+      "url": "https://maimai.cn/article/c",
+      "points": [
+        "轮次与流程"
+      ]
+    }
+  ],
+  "high_frequency_points": [
+    "ReAct 循环"
+  ],
+  "point_links": {
+    "ReAct 循环": [
+      "Q3-4"
+    ]
+  }
+}

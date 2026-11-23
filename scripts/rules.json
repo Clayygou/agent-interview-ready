@@ -1,0 +1,167 @@
+{
+  "version": "1.0",
+  "note": "题量 / 评分 / 状态转移的唯一机器可读来源。validate_doc.py 启动时载入并覆盖内置默认值；references/02、08、09、10 只描述规则，不再各写一份数字。修改规则时先改本文件，再跑 --self-test 与 run_audit.py。",
+  "interview_types": [
+    "业务面",
+    "HR 面"
+  ],
+  "question_counts": {
+    "业务面": {
+      "3": [
+        8,
+        10
+      ],
+      "4": [
+        6,
+        10
+      ],
+      "5": [
+        4,
+        6
+      ],
+      "6": [
+        1,
+        3
+      ],
+      "7": [
+        4,
+        6
+      ]
+    },
+    "HR 面": {
+      "3": [
+        3,
+        5
+      ],
+      "4": [
+        5,
+        7
+      ],
+      "5": [
+        7,
+        10
+      ],
+      "6": [
+        1,
+        2
+      ],
+      "7": [
+        4,
+        6
+      ]
+    }
+  },
+  "basics_min": {
+    "业务面": 3,
+    "HR 面": 0
+  },
+  "behavior_min": {
+    "业务面": 0,
+    "HR 面": 2
+  },
+  "first_pick_group": {
+    "业务面": "basics",
+    "HR 面": "behavior"
+  },
+  "pick_groups": [
+    "basics",
+    "role",
+    "behavior"
+  ],
+  "score_verdicts": {
+    "0": "未作答",
+    "1": "概念复述",
+    "2": "有结论无依据",
+    "3": "有依据缺代价",
+    "4": "完整可讲"
+  },
+  "transitions": {
+    "0": [
+      "retreat",
+      "hold"
+    ],
+    "1": [
+      "followup",
+      "hold",
+      "retreat"
+    ],
+    "2": [
+      "followup",
+      "probe"
+    ],
+    "3": [
+      "followup",
+      "probe"
+    ],
+    "4": [
+      "advance",
+      "hold"
+    ]
+  },
+  "advance": {
+    "requires_score": 4,
+    "max_step": 1
+  },
+  "probe": {
+    "max": 2,
+    "after_followups": 2,
+    "score_range": [
+      2,
+      3
+    ],
+    "max_step": 1,
+    "reason_keyword": "试探"
+  },
+  "followup": {
+    "consecutive_max": 2,
+    "session_max": 4,
+    "based_on_min_chars": 8
+  },
+  "actions": [
+    "start",
+    "advance",
+    "followup",
+    "hold",
+    "retreat",
+    "probe"
+  ],
+  "action_labels": {
+    "start": "题库随机首题",
+    "advance": "升档",
+    "followup": "追问",
+    "hold": "保持",
+    "retreat": "降档",
+    "probe": "试探升档"
+  },
+  "session": {
+    "target_rounds": {
+      "业务面": [
+        5,
+        7
+      ],
+      "HR 面": [
+        4,
+        6
+      ]
+    },
+    "ended_reasons": {
+      "completed": "达到目标轮数",
+      "user_stopped": "用户提前结束",
+      "capability_unavailable": "对话框不可用",
+      "failed": "输入不可得或规则阻塞"
+    },
+    "early_stop_exempt": [
+      "user_stopped",
+      "capability_unavailable",
+      "failed"
+    ]
+  },
+  "options": {
+    "这题我不会": "dont_know",
+    "需要提示": "hint",
+    "直接作答": "answer",
+    "换一道题": "skip"
+  },
+  "filename_token": "_面试准备（允许 _probe样例 等后缀变体）",
+  "filename_pattern": "_面试准备"
+}

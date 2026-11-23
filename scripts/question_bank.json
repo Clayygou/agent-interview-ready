@@ -1,0 +1,925 @@
+{
+  "version": "2.1",
+  "note": "内部题库，不展示给面试者。group=basics 是开局热身八股（LLM / Transformer / PPO 等），group=role 是岗位题；domain_tags 供 JD 题型映射使用。prompt 是题干，anchors 是评分锚点，escalate_hint 是升档方向。kb_ref 指向本地知识库题号，无对应题目时明确写「无对应题号」，禁止编造。",
+  "levels": {
+    "L1": {
+      "name": "概念复现",
+      "items": [
+        {
+          "id": "L1-01",
+          "topic": "最小 Agent loop 五件套",
+          "kb_ref": "INTERVIEW.md 第 11 题（一组 1–15）",
+          "prompt": "一个最小的 Agent 运行时循环，由哪几个不可或缺的部分组成？请直接列出来。",
+          "escalate_hint": "追问每一件为什么不能省，尤其是停止条件与观察回填",
+          "anchors": {
+            "1": "只说模型、提示词、工具",
+            "3": "列全五件并说明状态如何流转",
+            "4": "五件齐全 + 项目里跑通的文件 + 缺一件的后果"
+          },
+          "group": "role",
+          "domain_tags": [
+            "agent"
+          ],
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [
+              11
+            ],
+            "expected_titles": [
+              "最小可用 Agent 的核心模块有哪些"
+            ]
+          }
+        },
+        {
+          "id": "L1-02",
+          "topic": "Agent 与 Workflow 的边界",
+          "kb_ref": "INTERVIEW.md 第 4–6 题（一组 1–15）",
+          "prompt": "什么情况下你会用一个 Agent，什么情况下直接用固定流程就够了？",
+          "escalate_hint": "追问代价：评估、错误链传播、延迟与成本",
+          "anchors": {
+            "1": "只说不确定就上 Agent",
+            "3": "按路径是否可枚举给结论并说动机",
+            "4": "结论 + 代价 + 项目中混合使用的真实切法"
+          },
+          "group": "role",
+          "domain_tags": [
+            "agent"
+          ],
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [
+              4,
+              5,
+              6
+            ],
+            "expected_titles": [
+              "Agent 和 Workflow 的区别，判断依据",
+              "什么时候不该用 Agent",
+              "单次提示词 / Workflow / Agent 三者怎么选型"
+            ]
+          }
+        },
+        {
+          "id": "L1-03",
+          "topic": "Function Calling 参数校验",
+          "kb_ref": "INTERVIEW.md 第 25 题（三组 23–42）",
+          "prompt": "模型给出的工具调用参数，进入执行前你会做哪些检查？",
+          "escalate_hint": "追问校验失败后是重试、回填错误还是转人工",
+          "anchors": {
+            "1": "只说校验格式",
+            "3": "Schema 校验 + 错误回填 + 有限重试",
+            "4": "上述 + 幂等与重复调用的边界 + 项目文件"
+          },
+          "group": "role",
+          "domain_tags": [
+            "agent"
+          ],
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [
+              25
+            ],
+            "expected_titles": [
+              "参数格式不对怎么处理"
+            ]
+          }
+        },
+        {
+          "id": "L1-04",
+          "topic": "MCP 与 Skills 的边界",
+          "kb_ref": "INTERVIEW.md 第 35–36 题（三组 23–42）",
+          "prompt": "MCP 和 Skill 各自解决什么问题？一句话说清分工。",
+          "escalate_hint": "追问渐进式披露为什么能省 token、什么时候反而失效",
+          "anchors": {
+            "1": "把两者都叫工具",
+            "3": "连接协议 vs 规则与知识加载",
+            "4": "分工 + 加载时机 + 自己项目里的分层取舍"
+          },
+          "group": "role",
+          "domain_tags": [
+            "agent"
+          ],
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [
+              35,
+              36
+            ],
+            "expected_titles": [
+              "MCP 和 Skills 的区别",
+              "Function Call / MCP / Skill 三者边界"
+            ]
+          }
+        },
+        {
+          "id": "L1-05",
+          "topic": "记忆与上下文分层",
+          "kb_ref": "INTERVIEW.md 第 43、47 题（四组 43–61）",
+          "prompt": "短期上下文、长期记忆、外部检索这三类信息，你怎么划分？",
+          "escalate_hint": "追问压缩后丢约束怎么发现、怎么回滚",
+          "anchors": {
+            "1": "只说有个向量库",
+            "3": "按生命周期与可回滚性分层",
+            "4": "分层 + 不可丢清单 + 项目实现"
+          },
+          "group": "role",
+          "domain_tags": [
+            "agent"
+          ],
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [
+              43,
+              47
+            ],
+            "expected_titles": [
+              "短期与长期记忆怎么实现、怎么区分",
+              "上下文管理机制怎么设计"
+            ]
+          }
+        },
+        {
+          "id": "L1-06",
+          "topic": "幻觉与 grounding",
+          "kb_ref": "INTERVIEW.md 第 66、94 题（五组 62–74 / 七组 87–98）",
+          "prompt": "在 Agent 场景里，「幻觉」和「没有依据的主张」怎么区分？",
+          "escalate_hint": "追问怎么量化、怎么定位到具体一步",
+          "anchors": {
+            "1": "只说模型瞎编",
+            "3": "给出可核对的定义与证据口径",
+            "4": "定义 + 指标口径 + 轨迹日志定位"
+          },
+          "group": "role",
+          "domain_tags": [
+            "llm",
+            "eval"
+          ],
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [
+              66,
+              94
+            ],
+            "expected_titles": [
+              "怎么减少答案编造",
+              "幻觉率怎么定义和计算"
+            ]
+          }
+        },
+        {
+          "id": "L1-B01",
+          "topic": "LLM 的自回归生成与训练推理差异",
+          "group": "basics",
+          "domain_tags": [
+            "basics",
+            "llm"
+          ],
+          "kb_ref": "通用八股；本地知识库 INTERVIEW.md 无对应题号",
+          "prompt": "大语言模型为什么按 next-token prediction 训练、按自回归方式生成？训练和推理的不一致会带来什么问题？",
+          "escalate_hint": "升到「推理时早期错一个 token 会怎样」与 teacher forcing 的代价",
+          "anchors": {
+            "1": "只说模型一个字一个字往外吐",
+            "3": "讲清 teacher forcing 与 exposure bias，说明错误会沿后续步累积",
+            "4": "上述 + 与采样策略的关系 + 缓解手段（ scheduled sampling / 约束解码）及其代价"
+          },
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [],
+            "note": "通用八股；本地知识库 INTERVIEW.md 无对应题号"
+          }
+        },
+        {
+          "id": "L1-B02",
+          "topic": "Transformer 自注意力与 QKV",
+          "group": "basics",
+          "domain_tags": [
+            "basics",
+            "llm"
+          ],
+          "kb_ref": "通用八股；本地知识库 INTERVIEW.md 无对应题号",
+          "prompt": "自注意力里 Q、K、V 各自是什么？为什么注意力对序列长度是平方复杂度？",
+          "escalate_hint": "升到长上下文下怎么降复杂度，以及多头与单头的差别",
+          "anchors": {
+            "1": "只背「Q 查 K 得权重再乘 V」",
+            "3": "能写出缩放点积公式、解释除以根号 d 的原因与 O(n²) 的来源",
+            "4": "上述 + 多头的作用 + 稀疏 / 线性注意力或 KV Cache 的代价与适用边界"
+          },
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [],
+            "note": "通用八股；本地知识库 INTERVIEW.md 无对应题号"
+          }
+        },
+        {
+          "id": "L1-B03",
+          "topic": "位置编码与 RoPE",
+          "group": "basics",
+          "domain_tags": [
+            "basics",
+            "llm"
+          ],
+          "kb_ref": "通用八股；本地知识库 INTERVIEW.md 无对应题号",
+          "prompt": "Transformer 为什么必须加位置信息？绝对位置编码和 RoPE 相对位置编码的差别在哪？",
+          "escalate_hint": "升到超出训练长度时外推为什么会崩，以及怎么缓解",
+          "anchors": {
+            "1": "只说模型本身不知道顺序",
+            "3": "说清置换不变性、绝对与相对的差别、RoPE 用旋转注入相对位置",
+            "4": "上述 + 长度外推问题 + 位置插值 / 基数调整的代价与评测方式"
+          },
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [],
+            "note": "通用八股；本地知识库 INTERVIEW.md 无对应题号"
+          }
+        },
+        {
+          "id": "L1-B04",
+          "topic": "残差连接与 Norm 的位置",
+          "group": "basics",
+          "domain_tags": [
+            "basics",
+            "llm"
+          ],
+          "kb_ref": "通用八股；本地知识库 INTERVIEW.md 无对应题号",
+          "prompt": "残差连接解决什么问题？Pre-LN 和 Post-LN 的差别是什么，现在为什么多用 Pre-LN？",
+          "escalate_hint": "升到深层训练的梯度与 warmup 依赖关系",
+          "anchors": {
+            "1": "只说防止梯度消失",
+            "3": "讲清恒等映射让梯度有直通路径，并对比两种 Norm 位置的训练稳定性",
+            "4": "上述 + 学习率 warmup 的必要性 + 换成 RMSNorm 的收益与代价"
+          },
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [],
+            "note": "通用八股；本地知识库 INTERVIEW.md 无对应题号"
+          }
+        },
+        {
+          "id": "L1-B05",
+          "topic": "PPO 在 RLHF 里的作用",
+          "group": "basics",
+          "domain_tags": [
+            "basics",
+            "llm"
+          ],
+          "kb_ref": "通用八股；本地知识库 INTERVIEW.md 无对应题号",
+          "prompt": "RLHF 里为什么用 PPO？clip 和 KL 惩罚各自在防什么？",
+          "escalate_hint": "升到 reward hacking 与 KL 系数怎么调",
+          "anchors": {
+            "1": "只说 PPO 是一种强化学习算法",
+            "3": "说清 on-policy 近端更新、clip 限制策略突变、KL 约束不偏离 SFT 模型",
+            "4": "上述 + 与朴素策略梯度的对比 + KL 过大 / 过小的表现与调参代价"
+          },
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [],
+            "note": "通用八股；本地知识库 INTERVIEW.md 无对应题号"
+          }
+        },
+        {
+          "id": "L1-B06",
+          "topic": "RLHF 三段式与奖励作弊",
+          "group": "basics",
+          "domain_tags": [
+            "basics",
+            "llm"
+          ],
+          "kb_ref": "通用八股；本地知识库 INTERVIEW.md 无对应题号",
+          "prompt": "SFT、奖励模型、PPO 三段各自解决什么？什么叫 reward hacking？",
+          "escalate_hint": "升到怎么发现奖励模型被钻空子以及评测口径",
+          "anchors": {
+            "1": "只按顺序列出三个名词",
+            "3": "讲清每段的数据形式与目标，并给出奖励作弊的具体例子",
+            "4": "上述 + 人类偏好数据的噪声 + 用对抗样本 / 人工抽检发现的手段与代价"
+          },
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [],
+            "note": "通用八股；本地知识库 INTERVIEW.md 无对应题号"
+          }
+        },
+        {
+          "id": "L1-B07",
+          "topic": "DPO 与 PPO 的取舍",
+          "group": "basics",
+          "domain_tags": [
+            "basics",
+            "llm"
+          ],
+          "kb_ref": "通用八股；本地知识库 INTERVIEW.md 无对应题号",
+          "prompt": "DPO 为什么可以不用显式奖励模型？相对 PPO 少了什么、代价是什么？",
+          "escalate_hint": "升到离线偏好数据分布不匹配时怎么补救",
+          "anchors": {
+            "1": "只说 DPO 更简单不用训 RM",
+            "3": "说清偏好对与隐式奖励的推导思路、省掉 RM 与在线采样",
+            "4": "上述 + 离线分布漂移 / 覆盖度不足 + 何时仍该回到在线 PPO"
+          },
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [],
+            "note": "通用八股；本地知识库 INTERVIEW.md 无对应题号"
+          }
+        },
+        {
+          "id": "L1-B08",
+          "topic": "解码参数与幻觉",
+          "group": "basics",
+          "domain_tags": [
+            "basics",
+            "llm"
+          ],
+          "kb_ref": "通用八股；本地知识库 INTERVIEW.md 无对应题号",
+          "prompt": "temperature、top-p、beam search 分别影响什么？它们和幻觉是什么关系？",
+          "escalate_hint": "升到事实性任务与开放性任务的参数选择依据",
+          "anchors": {
+            "1": "只说调大更随机",
+            "3": "讲清分布锐化 / 截断采样 / 搜索目标三者的差别",
+            "4": "上述 + 说明采样只能改概率不能补知识 + grounding / 检索与解码的配合及代价"
+          },
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [],
+            "note": "通用八股；本地知识库 INTERVIEW.md 无对应题号"
+          }
+        },
+        {
+          "id": "L1-BH01",
+          "topic": "一分钟自我介绍与能力主张",
+          "group": "behavior",
+          "domain_tags": [
+            "behavior"
+          ],
+          "level": "L1",
+          "kb_ref": "HR 面通用行为题；本地知识库 INTERVIEW.md 无对应题号",
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [],
+            "note": "HR 面行为题，不出技术细节"
+          },
+          "prompt": "请用一分钟介绍自己，并说明与这个岗位最相关的两段经历。",
+          "escalate_hint": "追问具体事实、依据与个人责任边界",
+          "anchors": {
+            "1": "只复述简历时间线",
+            "3": "结论先行 + 两段经历 + 岗位匹配",
+            "4": "上述 + 用可核对结果量化贡献 + 明确动机"
+          }
+        },
+        {
+          "id": "L1-BH02",
+          "topic": "为什么选择这个岗位与公司",
+          "group": "behavior",
+          "domain_tags": [
+            "behavior"
+          ],
+          "level": "L1",
+          "kb_ref": "HR 面通用行为题；本地知识库 INTERVIEW.md 无对应题号",
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [],
+            "note": "HR 面行为题，不出技术细节"
+          },
+          "prompt": "你为什么投这个岗位？你了解我们公司的哪一块业务？",
+          "escalate_hint": "追问具体事实、依据与个人责任边界",
+          "anchors": {
+            "1": "只说平台大、想学习",
+            "3": "岗位要求与自身经历对应 + 一条可核实的公司事实",
+            "4": "上述 + 说清未核实信息的边界 + 反问确认"
+          }
+        },
+        {
+          "id": "L1-BH03",
+          "topic": "离职原因与稳定性",
+          "group": "behavior",
+          "domain_tags": [
+            "behavior"
+          ],
+          "level": "L1",
+          "kb_ref": "HR 面通用行为题；本地知识库 INTERVIEW.md 无对应题号",
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [],
+            "note": "HR 面行为题，不出技术细节"
+          },
+          "prompt": "你为什么离开上一家公司，怎么让我们相信你会稳定做下去？",
+          "escalate_hint": "追问具体事实、依据与个人责任边界",
+          "anchors": {
+            "1": "抱怨前雇主或只说个人原因",
+            "3": "客观陈述事实 + 本次求职的明确诉求",
+            "4": "上述 + 用已确认的规划说明稳定性 + 不贬低他人"
+          }
+        }
+      ]
+    },
+    "L2": {
+      "name": "机制与代价",
+      "items": [
+        {
+          "id": "L2-01",
+          "topic": "停止条件缺失",
+          "kb_ref": "INTERVIEW.md 第 86、107 题（六组 75–86 / 八组 99–111）",
+          "prompt": "一个 Agent 循环如果没有停止条件，具体会怎么坏掉？你会怎么兜底？",
+          "escalate_hint": "升到轨迹回放定位死循环的具体步骤",
+          "anchors": {
+            "1": "只说会一直转",
+            "3": "轮次上限 + 重复动作检测 + 超限降级",
+            "4": "上述 + 代价权衡 + 日志里怎么定位"
+          },
+          "group": "role",
+          "domain_tags": [
+            "agent"
+          ],
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [
+              86,
+              107
+            ],
+            "expected_titles": [
+              "怎么避免死锁/死循环",
+              "死循环原因与三层防护"
+            ]
+          }
+        },
+        {
+          "id": "L2-02",
+          "topic": "工具报错后的错误回填",
+          "kb_ref": "INTERVIEW.md 第 42 题（三组 23–42）",
+          "prompt": "工具返回格式错误时，直接重试和把错误回填给模型，各自代价是什么？",
+          "escalate_hint": "升到「已执行一半的副作用」怎么幂等处理",
+          "anchors": {
+            "1": "只说重试就行",
+            "3": "对比 token / 延迟 / 重复副作用",
+            "4": "对比 + 幂等键 + 项目里的重试上限"
+          },
+          "group": "role",
+          "domain_tags": [
+            "agent"
+          ],
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [
+              42
+            ],
+            "expected_titles": [
+              "工具报错/超时/连续失败的策略"
+            ]
+          }
+        },
+        {
+          "id": "L2-03",
+          "topic": "人在环路与幂等键",
+          "kb_ref": "INTERVIEW.md 第 102、105 题（八组 99–111）",
+          "prompt": "哪些动作必须等人确认？等待期间状态怎么存？",
+          "escalate_hint": "升到完成事件能不能靠模型自述判定",
+          "anchors": {
+            "1": "只说高危操作要审批",
+            "3": "列出触发条件 + 状态序列化",
+            "4": "上述 + 幂等键 + 恢复后不重复执行"
+          },
+          "group": "role",
+          "domain_tags": [
+            "agent",
+            "engineer"
+          ],
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [
+              102,
+              105
+            ],
+            "expected_titles": [
+              "HITL 时 Loop 处于什么状态，怎么暂停恢复",
+              "有副作用工具怎么保证幂等"
+            ]
+          }
+        },
+        {
+          "id": "L2-04",
+          "topic": "混合检索与重排代价",
+          "kb_ref": "INTERVIEW.md 第 64–65 题（五组 62–74）",
+          "prompt": "BM25、稠密检索、RRF 融合和精排，各自解决什么问题、带来什么开销？",
+          "escalate_hint": "升到怎么证明改动没把别的查询类型改坏",
+          "anchors": {
+            "1": "只背名词",
+            "3": "逐层说明动机与延迟成本",
+            "4": "上述 + Recall@K / MRR 口径 + 回归集"
+          },
+          "group": "role",
+          "domain_tags": [
+            "rag"
+          ],
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [
+              64,
+              65
+            ],
+            "expected_titles": [
+              "为什么混合检索和重排",
+              "召回不准怎么排查"
+            ]
+          }
+        },
+        {
+          "id": "L2-05",
+          "topic": "多模态输入的上下文预算",
+          "kb_ref": "INTERVIEW.md 第 52–53 题（四组 43–61；结合岗位 JD：全模态输入）",
+          "prompt": "图像、音频、视频帧进同一个上下文后，token 预算该怎么算？先砍哪一块？",
+          "escalate_hint": "升到预算减半后的架构改造与验证",
+          "anchors": {
+            "1": "只说省着点用",
+            "3": "按模态折算 + 优先级 + 压缩时机",
+            "4": "上述 + 不可丢信息清单 + 评估方式"
+          },
+          "group": "role",
+          "domain_tags": [
+            "multimodal"
+          ],
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [
+              52,
+              53
+            ],
+            "expected_titles": [
+              "为什么上下文越长效果越不稳定",
+              "临近阈值怎么避免大段压缩打断体验"
+            ]
+          }
+        },
+        {
+          "id": "L2-06",
+          "topic": "Agent 评估口径",
+          "kb_ref": "INTERVIEW.md 第 87、90 题（七组 87–98）",
+          "prompt": "评估一个 Agent 好不好，为什么不能只看最终回答顺不顺？",
+          "escalate_hint": "升到离线评估集怎么预测线上失败",
+          "anchors": {
+            "1": "只说要看过程",
+            "3": "分层指标 + 轨迹可回溯",
+            "4": "上述 + 回归用例 + 成本指标"
+          },
+          "group": "role",
+          "domain_tags": [
+            "eval"
+          ],
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [
+              87,
+              90
+            ],
+            "expected_titles": [
+              "评估体系包括哪些维度",
+              "该统计哪些指标"
+            ]
+          }
+        },
+        {
+          "id": "L2-BH01",
+          "topic": "与同事意见不一致的处理",
+          "group": "behavior",
+          "domain_tags": [
+            "behavior"
+          ],
+          "level": "L2",
+          "kb_ref": "HR 面通用行为题；本地知识库 INTERVIEW.md 无对应题号",
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [],
+            "note": "HR 面行为题，不出技术细节"
+          },
+          "prompt": "讲一次你和协作方对方案判断不一致的经历，最后怎么收敛的？",
+          "escalate_hint": "追问具体事实、依据与个人责任边界",
+          "anchors": {
+            "1": "只说最后听我的",
+            "3": "讲清分歧点 + 用了什么依据 + 各自的让步",
+            "4": "上述 + 复盘代价 + 后来怎么改流程"
+          }
+        },
+        {
+          "id": "L2-BH02",
+          "topic": "项目延期的责任归属与复盘",
+          "group": "behavior",
+          "domain_tags": [
+            "behavior"
+          ],
+          "level": "L2",
+          "kb_ref": "HR 面通用行为题；本地知识库 INTERVIEW.md 无对应题号",
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [],
+            "note": "HR 面行为题，不出技术细节"
+          },
+          "prompt": "一个项目延期了，你负责的那部分也有问题，你怎么向团队说明？",
+          "escalate_hint": "追问具体事实、依据与个人责任边界",
+          "anchors": {
+            "1": "把责任推给外部依赖",
+            "3": "先讲自己的责任边界 + 可核对的时间线",
+            "4": "上述 + 量化影响 + 后续可验证的改进动作"
+          }
+        }
+      ]
+    },
+    "L3": {
+      "name": "场景权衡与故障定位",
+      "items": [
+        {
+          "id": "L3-01",
+          "topic": "轨迹回放定位死循环",
+          "kb_ref": "INTERVIEW.md 第 93 题（七组 87–98）",
+          "prompt": "线上一个 Agent 反复调用同一个工具停不下来，给你一份轨迹日志，你怎么定位到具体哪一步？",
+          "escalate_hint": "升到「如果日志被压缩过」还能不能定位",
+          "anchors": {
+            "1": "只说加日志",
+            "3": "按状态、动作、观察三段比对重复模式",
+            "4": "上述 + 最小复现 + 修复后的回归"
+          },
+          "group": "role",
+          "domain_tags": [
+            "agent",
+            "engineer"
+          ],
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [
+              93
+            ],
+            "expected_titles": [
+              "线上出错怎么定位到哪一步"
+            ]
+          }
+        },
+        {
+          "id": "L3-02",
+          "topic": "压缩后丢失关键约束",
+          "kb_ref": "INTERVIEW.md 第 60 题（四组 43–61）",
+          "prompt": "用户开头说过的一条硬约束，压缩之后再也没被遵守，你怎么发现、怎么修？",
+          "escalate_hint": "升到多模态长会话下不可丢清单怎么自动生成",
+          "anchors": {
+            "1": "只说重新提示一遍",
+            "3": "轨迹回放 + 不可丢清单 + 一致性校验",
+            "4": "上述 + 原文引用与回滚 + 代价"
+          },
+          "group": "role",
+          "domain_tags": [
+            "agent"
+          ],
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [
+              60
+            ],
+            "expected_titles": [
+              "怎么保证压缩不丢关键内容"
+            ]
+          }
+        },
+        {
+          "id": "L3-03",
+          "topic": "多模态工具返回异常",
+          "kb_ref": "INTERVIEW.md 第 42、111 题（结合岗位 JD：全模态工具链）",
+          "prompt": "一个视觉工具本该返回图片加结构化结果，实际只返回了文本，你的 Agent 怎么降级而不崩？",
+          "escalate_hint": "升到「部分结果」怎么在不编造的前提下继续任务",
+          "anchors": {
+            "1": "只说报错重试",
+            "3": "Schema 校验 + 部分结果 + 备选路径",
+            "4": "上述 + 不虚构图片内容 + 转人工边界"
+          },
+          "group": "role",
+          "domain_tags": [
+            "multimodal",
+            "agent"
+          ],
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [
+              42,
+              111
+            ],
+            "expected_titles": [
+              "工具报错/超时/连续失败的策略",
+              "怎么区分 Prompt / 模型 / 工具 / 逻辑问题"
+            ]
+          }
+        },
+        {
+          "id": "L3-04",
+          "topic": "全模态 Agent 的控制权划分",
+          "kb_ref": "INTERVIEW.md 第 4、40 题（结合岗位 JD：全模态 Agentic Model）",
+          "prompt": "在一个能看、能听、能调工具的 Agent 里，哪一步必须由代码决定、哪一步交给模型？举一个具体场景。",
+          "escalate_hint": "升到「模型自称做完了」时完成事件怎么判定",
+          "anchors": {
+            "1": "笼统说模型负责智能部分",
+            "3": "按副作用与可回滚性划界并举例",
+            "4": "上述 + 状态机判定 + 失败代价"
+          },
+          "group": "role",
+          "domain_tags": [
+            "multimodal",
+            "agent"
+          ],
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [
+              4,
+              40
+            ],
+            "expected_titles": [
+              "Agent 和 Workflow 的区别，判断依据",
+              "工具编排放 Skill 还是 Agent？工具在哪定义"
+            ]
+          }
+        },
+        {
+          "id": "L3-05",
+          "topic": "VLM 后训练轨迹数据",
+          "kb_ref": "INTERVIEW.md 第 89 题（评测集构建，JD 场景题）",
+          "prompt": "要用工具调用轨迹做后训练数据，里面的错误轨迹和噪声你怎么处理？",
+          "escalate_hint": "升到怎么区分「合理探索」和「该被过滤的错误」",
+          "anchors": {
+            "1": "只说清洗一下",
+            "3": "按结果可验证性过滤 + 保留失败样本",
+            "4": "上述 + 标注口径 + 对评测的影响"
+          },
+          "group": "role",
+          "domain_tags": [
+            "multimodal",
+            "llm",
+            "research"
+          ],
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [
+              89
+            ],
+            "expected_titles": [
+              "怎么构建评测集"
+            ]
+          }
+        }
+      ]
+    },
+    "L4": {
+      "name": "反事实与研究判断",
+      "items": [
+        {
+          "id": "L4-01",
+          "topic": "上下文预算减半的架构改造",
+          "kb_ref": "INTERVIEW.md 第 47、54 题（四组 43–61，结合岗位 JD）",
+          "prompt": "假设全模态输入让可用上下文直接减半，你的 Agent 架构怎么改？怎么证明改完没把别的场景改坏？",
+          "escalate_hint": "终局题，可按回答继续追评测偏置",
+          "anchors": {
+            "1": "只说压缩得更狠",
+            "3": "给出分层改造 + 回归验证方案",
+            "4": "改造 + 指标 + 分场景回归 + 成本与边界"
+          },
+          "group": "role",
+          "domain_tags": [
+            "multimodal",
+            "research"
+          ],
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [
+              47,
+              54
+            ],
+            "expected_titles": [
+              "上下文管理机制怎么设计",
+              "除压缩外还有哪些规避窗口限制的方案"
+            ]
+          }
+        },
+        {
+          "id": "L4-02",
+          "topic": "离线评估预测线上失败",
+          "kb_ref": "INTERVIEW.md 第 89、90、93 题（七组 87–98）",
+          "prompt": "只有离线评估集，你怎么设计指标，才能提前看出线上会出的那类失败？",
+          "escalate_hint": "终局题，可追问分布漂移",
+          "anchors": {
+            "1": "只说多看几个例子",
+            "3": "失败类型分层 + 与线上轨迹对齐",
+            "4": "上述 + 分布漂移 + 盲区说明"
+          },
+          "group": "role",
+          "domain_tags": [
+            "eval",
+            "research"
+          ],
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [
+              89,
+              90,
+              93
+            ],
+            "expected_titles": [
+              "怎么构建评测集",
+              "该统计哪些指标",
+              "线上出错怎么定位到哪一步"
+            ]
+          }
+        },
+        {
+          "id": "L4-03",
+          "topic": "「完成」的判定",
+          "kb_ref": "INTERVIEW.md 第 79 题（六组 75–86）",
+          "prompt": "一个多步全模态任务，怎么判定它真的完成了，而不是模型自己说做完了？",
+          "escalate_hint": "终局题，可追问外部验证的成本",
+          "anchors": {
+            "1": "只说看最终回答",
+            "3": "显式状态机 + 外部验证点",
+            "4": "上述 + 误判代价 + 可观测证据"
+          },
+          "group": "role",
+          "domain_tags": [
+            "agent",
+            "research"
+          ],
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [
+              79
+            ],
+            "expected_titles": [
+              "主 Agent 怎么知道子 Agent 完成了"
+            ]
+          }
+        },
+        {
+          "id": "L4-04",
+          "topic": "真提升还是评测偏置",
+          "kb_ref": "INTERVIEW.md 第 91、98 题（七组 87–98，结合岗位 JD：研究岗）",
+          "prompt": "团队报出一个 Agentic Model 的明显提升，你怎么判断它是真能力提升还是评测设计带来的偏置？",
+          "escalate_hint": "终局题，可追问消融与复现成本",
+          "anchors": {
+            "1": "只说复现一遍",
+            "3": "检查数据泄漏、指标口径与基线",
+            "4": "上述 + 消融 + 分场景拆解 + 结论边界"
+          },
+          "group": "role",
+          "domain_tags": [
+            "eval",
+            "research"
+          ],
+          "kb_source": {
+            "version": "kb-1.0",
+            "path": "ai-agent-interview-guide/INTERVIEW.md",
+            "item_ids": [
+              91,
+              98
+            ],
+            "expected_titles": [
+              "模型评审靠谱吗，怎么校准",
+              "为什么不能用公开榜单选型"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "domains": [
+    "basics",
+    "llm",
+    "agent",
+    "multimodal",
+    "rag",
+    "eval",
+    "engineer",
+    "research",
+    "behavior"
+  ]
+}

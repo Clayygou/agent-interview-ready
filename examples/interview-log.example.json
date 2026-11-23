@@ -1,0 +1,160 @@
+{
+  "session_id": "demo-session-001",
+  "mode": "interactive",
+  "started_at": "2026-01-01",
+  "pick_seed": "20261104-demo",
+  "pick_group": "basics",
+  "ended_reason": "达到目标轮数（业务面 6 轮）",
+  "turns": [
+    {
+      "id": "M1",
+      "q_ref": "Q3-1",
+      "round": 1,
+      "followup_of": null,
+      "level": "L1",
+      "bank_id": "L1-B01",
+      "topic": "LLM 的自回归生成与训练推理差异",
+      "question": "大语言模型为什么按 next-token prediction 训练、按自回归方式生成？训练和推理的不一致会带来什么问题？",
+      "answer": "训练时用 teacher forcing，每一步都喂真实前缀；推理时只能喂自己生成的前缀，这叫 exposure bias，早期错一个 token 后面会沿错误前缀越走越偏。项目里做多步生成时用轨迹日志定位第一个偏掉的 token。",
+      "answered": true,
+      "score": 3,
+      "verdict": "有依据缺代价",
+      "decision": {
+        "action": "start",
+        "based_on": null,
+        "reason": "题库 L1 八股池随机首题"
+      },
+      "gaps": [
+        "失败代价与替代方案"
+      ],
+      "fix": "结论先行 → 依据 → 项目证据 → 代价与边界，四步补齐。",
+      "domain_ref": "通用八股；本地知识库 INTERVIEW.md 无对应题号",
+      "option": "直接作答"
+    },
+    {
+      "id": "M2",
+      "q_ref": "Q3-1",
+      "round": 2,
+      "followup_of": "M1",
+      "level": "L1",
+      "bank_id": "L1-B01",
+      "topic": "训练推理不一致的代价",
+      "question": "你刚才说『训练时用 teacher forcing，每一步都喂真实前缀』，那推理时早期错一个 token，除了沿前缀累积还有什么代价？怎么缓解？",
+      "answer": "长序列会越走越偏；可以用 scheduled sampling 在训练里混入模型自己的前缀，代价是训练不稳定、收敛变慢；也可以用约束解码兜底，但会牺牲生成多样性。项目里只在高风险字段上开约束。",
+      "answered": true,
+      "score": 4,
+      "verdict": "完整可讲",
+      "decision": {
+        "action": "followup",
+        "based_on": "训练时用 teacher forcing，每一步都喂真实前缀",
+        "reason": "回答缺代价与替代方案，原地追问"
+      },
+      "gaps": [
+        "失败代价与替代方案"
+      ],
+      "fix": "结论先行 → 依据 → 项目证据 → 代价与边界，四步补齐。",
+      "domain_ref": "通用八股；本地知识库 INTERVIEW.md 无对应题号",
+      "option": "直接作答"
+    },
+    {
+      "id": "M3",
+      "q_ref": "Q3-4",
+      "round": 3,
+      "followup_of": null,
+      "level": "L2",
+      "bank_id": "L2-02",
+      "topic": "工具报错后的错误回填",
+      "question": "工具返回格式错误时，直接重试和把错误回填给模型，各自代价是什么？",
+      "answer": "直接重试会重复消耗 token 并可能重复触发副作用；回填错误让模型能修参数，但要多一轮推理。我们用 Schema 校验加有限重试。",
+      "answered": true,
+      "score": 3,
+      "verdict": "有依据缺代价",
+      "decision": {
+        "action": "advance",
+        "based_on": null,
+        "reason": "上一轮 4 分，换考点升一档"
+      },
+      "gaps": [
+        "失败代价与替代方案"
+      ],
+      "fix": "结论先行 → 依据 → 项目证据 → 代价与边界，四步补齐。",
+      "domain_ref": "INTERVIEW.md 第 42 题（三组 23–42）",
+      "option": "直接作答"
+    },
+    {
+      "id": "M4",
+      "q_ref": "Q3-4",
+      "round": 4,
+      "followup_of": "M3",
+      "level": "L2",
+      "bank_id": "L2-02",
+      "topic": "已执行一半的副作用",
+      "question": "你刚才说『Schema 校验加有限重试』，那已经执行了一半的工具调用怎么保证不重复？",
+      "answer": "用幂等键把动作与结果绑定，重放时先查键再决定是否真的执行，恢复后不会重复扣款；边界是本地模拟没有真实支付系统。",
+      "answered": true,
+      "score": 4,
+      "verdict": "完整可讲",
+      "decision": {
+        "action": "followup",
+        "based_on": "Schema 校验加有限重试",
+        "reason": "追问幂等与恢复"
+      },
+      "gaps": [
+        "失败代价与替代方案"
+      ],
+      "fix": "结论先行 → 依据 → 项目证据 → 代价与边界，四步补齐。",
+      "domain_ref": "INTERVIEW.md 第 42 题（三组 23–42）",
+      "option": "需要提示"
+    },
+    {
+      "id": "M5",
+      "q_ref": "Q6-1",
+      "round": 5,
+      "followup_of": null,
+      "level": "L3",
+      "bank_id": "L3-01",
+      "topic": "轨迹回放定位死循环",
+      "question": "线上一个 Agent 反复调用同一个工具停不下来，给你一份轨迹日志，你怎么定位到具体哪一步？",
+      "answer": "按状态、动作、观察三段比对重复模式，先找第一次出现完全相同三元组的轮次，再回放前一轮的观察；代价是日志压缩后会丢原文。",
+      "answered": true,
+      "score": 3,
+      "verdict": "有依据缺代价",
+      "decision": {
+        "action": "advance",
+        "based_on": null,
+        "reason": "上一轮 4 分，升到故障定位"
+      },
+      "gaps": [
+        "失败代价与替代方案"
+      ],
+      "fix": "结论先行 → 依据 → 项目证据 → 代价与边界，四步补齐。",
+      "domain_ref": "INTERVIEW.md 第 93 题（七组 87–98）",
+      "option": "直接作答"
+    },
+    {
+      "id": "M6",
+      "q_ref": "Q6-1",
+      "round": 6,
+      "followup_of": "M5",
+      "level": "L3",
+      "bank_id": "L3-01",
+      "topic": "压缩后的可回溯性",
+      "question": "你刚才说『日志压缩后会丢原文』，那怎么在压缩下仍然定位到被丢掉的那条约束？",
+      "answer": "压缩前列不可丢清单并保留原文引用，压缩后做一致性校验，不一致就回滚到未压缩版本；代价是多一份存储。",
+      "answered": true,
+      "score": 3,
+      "verdict": "有依据缺代价",
+      "decision": {
+        "action": "followup",
+        "based_on": "日志压缩后会丢原文",
+        "reason": "追问压缩边界与回滚"
+      },
+      "gaps": [
+        "失败代价与替代方案"
+      ],
+      "fix": "结论先行 → 依据 → 项目证据 → 代价与边界，四步补齐。",
+      "domain_ref": "INTERVIEW.md 第 93 题（七组 87–98）",
+      "option": "直接作答"
+    }
+  ]
+}
